@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"C:\\\\Users\\\\Jamie Teh\\\\Desktop\\\\mai_storage_project\" -type f -exec ls -lh {} \\\\;)",
+      "Bash(python3 *)",
+      "Bash(curl *)"
+    ]
+  }
+}
