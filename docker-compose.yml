@@ -16,5 +16,13 @@ services:
     depends_on:
       - backend
 
+  db-viewer:
+    image: coleifer/sqlite-web
+    ports:
+      - "8080:8080"
+    volumes:
+      - db_data:/data
+    command: sqlite_web --host 0.0.0.0 /data/chat.db
+
 volumes:
   db_data:
