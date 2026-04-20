@@ -35,4 +35,4 @@ venv/
 env/
 
 # Claude
-.claude/
+.claude
