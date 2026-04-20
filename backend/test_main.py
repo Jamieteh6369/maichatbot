@@ -157,9 +157,10 @@ def test_generate_sends_history_to_llm(client, session):
         client.post("/generate", json={"prompt": "Are you sure?", "session_id": session_id})
 
     messages_sent = mock.chat.completions.create.call_args[1]["messages"]
-    assert messages_sent[0] == {"role": "user", "content": "What is 2+2?"}
-    assert messages_sent[1] == {"role": "assistant", "content": "4"}
-    assert messages_sent[2] == {"role": "user", "content": "Are you sure?"}
+    assert messages_sent[0]["role"] == "system"
+    assert messages_sent[1] == {"role": "user", "content": "What is 2+2?"}
+    assert messages_sent[2] == {"role": "assistant", "content": "4"}
+    assert messages_sent[3] == {"role": "user", "content": "Are you sure?"}
 
 
 def test_generate_invalid_session(client):

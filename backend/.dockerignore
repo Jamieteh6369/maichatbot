@@ -1,0 +1,8 @@
+.env
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+chat.db
+test_main.py

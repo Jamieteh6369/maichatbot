@@ -10,8 +10,6 @@ from database import SessionLocal, ChatSession, Message, init_db
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 hf_client = InferenceClient(api_key=os.getenv("HF_API_KEY"))
 
 app = FastAPI()
@@ -121,7 +119,16 @@ def generate_text_hf(request: PromptRequest):
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
 
-        history = [{"role": m.role, "content": m.content} for m in session.messages]
+        system = {
+            "role": "system",
+            "content": (
+                "You are a helpful assistant. "
+                "Keep responses concise and clear. "
+                "Use markdown formatting: bullet points for lists and leave a space for each line of bullet points, "
+                "**bold** for key terms, and code blocks for code."
+            ),
+        }
+        history = [system] + [{"role": m.role, "content": m.content} for m in session.messages]
         history.append({"role": "user", "content": request.prompt})
 
         user_msg = Message(id=str(uuid.uuid4()), session_id=request.session_id, role="user", content=request.prompt)
